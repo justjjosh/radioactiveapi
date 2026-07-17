@@ -1,23 +1,19 @@
 from database import SessionLocal, engine, Base
 from models import Isotope
 
-print("Creating database tables...")
+def seed_database():
+    Base.metadata.create_all(bind=engine) #create tables if they don't exist
+    db = SessionLocal() #open a dedicated session to talk to the database
 
-Base.metadata.create_all(bind=engine)
-print("Seeding initial data... ")
+    isotopes = [
+        Isotope(name="Cobalt-60", symbol="Co-60", half_life=166304808.0),
+        Isotope(name="Carbon-14", symbol="C-14", half_life=180874560000.0),
+        Isotope(name="Polonium-214", symbol="Po-214", half_life=0.0001643)
+    ]
+    db.add_all(isotopes)
+    db.commit()
+    db.close()
+    print(f"Seeded {len(isotopes)} isotopes into the database.")
 
-#open a dedicated session to talk to the database
-db = SessionLocal()
-
-#python objects representing the isotopes we want to add to the database
-Isotope_1 = Isotope(name="Cobalt-60", symbol="Co-60", half_life=166304808.0)  # in seconds
-Isotope_2 = Isotope(name="Carbon-14", symbol="C-14", half_life=180874560000.0)
-Isotope_3 = Isotope(name="Polonium-214", symbol="Po-214", half_life=0.0001643)
-
-#staging and committing the new isotopes to the database
-db.add_all([Isotope_1, Isotope_2, Isotope_3])
-db.commit()
-
-#close the session
-db.close()
-print("Database seeded successfully.")
+if __name__ == "__main__":
+    seed_database()
