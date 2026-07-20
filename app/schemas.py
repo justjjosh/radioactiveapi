@@ -9,13 +9,13 @@ class IsotopeResponse(BaseModel):
 class DecayRequest(BaseModel):
     isotope_id: int
     initial_quantity: float
-    elapsed_time: float
+    elapsed_time_seconds: float
 
 class DecayResponse(BaseModel):
     isotope_name: str
     initial_quantity: float
     remaining_quantity: float
-    elapsed_time: float
+    elapsed_time_seconds: float
 
 
     class Config:
