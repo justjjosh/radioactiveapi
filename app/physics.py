@@ -44,19 +44,19 @@ def time_until_quantity(initial_amount: float, halflife: float, final_amount: fl
     time = math.log(initial_amount / final_amount) / lambda_decay
     return time
 
-def sine_wave_points(amplitude: float, frequency: float, duration_seconds: float, n_points: int = 100) -> float:
+def decay_curve_points(initial_quantity: float, half_life_seconds: float, duration_seconds: float, n_points: int = 100) -> float:
     """
-    Generate n-points(time, value) pair along a sine wave path with given amplitude
+    Generate n-points(time, value) pair along a sine wave path with given amplitude(initial quantity)
     """
-    if amplitude < 0:
+    if initial_quantity < 0:
         raise ValueError("Amplitude must be a non-negative number.")
-    if frequency <= 0:
+    if half_life_seconds <= 0:
         raise ValueError("Frequency must be a positive number.")
     if duration_seconds <= 0:
         raise ValueError("Duration must be a positive number.")
     
     time = np.linspace(0, duration_seconds, n_points)
-    value = amplitude * np.sin(2 * np.pi * frequency * time)
+    value = initial_quantity * np.sin(2 * np.pi * half_life_seconds * time)
     return time, value
 
 if __name__ == "__main__":
