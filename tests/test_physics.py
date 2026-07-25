@@ -1,5 +1,9 @@
 import math
+from fastapi.testclient import TestClient
+from app.main import app
 from app.physics import decay_constant, quantity_remaining, time_until_quantity, decay_curve_points
+
+client = TestClient(app)
 
 def test_decay_constant():
     # Test with a known half-life
@@ -86,3 +90,4 @@ def test_time_until_quantity():
         assert False, "Expected ValueError for final amount >= initial amount"
     except ValueError:
         pass
+
